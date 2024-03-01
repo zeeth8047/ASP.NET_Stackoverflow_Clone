@@ -1,0 +1,53 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="user-form needs-validation" novalidate id="account" method="post" 
+	asp-area="" asp-controller="Account" asp-action="Login" >
+	<div class="row">
+		<h2 class="text-center">@ViewData["Title"]</h2>
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<input type="hidden" asp-for="ReturnUrl" />
+		<div class="col-12">
+			<div class="form-group">
+				<label asp-for="Email" class="form-label" for="emailValidation">Email</label>
+				<input asp-for="Email" class="form-control" type="email" 
+				autocomplete="username" id="emailValidation" required>
+				<div class="invalid-feedback">
+						Invalid Email address!
+				</div>
+			</div>
+		</div>
+			
+		<div class="col-12">
+			<div class="form-group">
+				<label asp-for="Password" class="form-label" for="passwordValidation">Password</label>
+				<input asp-for="Password" class="form-control" type="password" autocomplete="current-password"
+					   id="passwordValidation" minlength="6" maxlength="16" required>
+				<div class="invalid-feedback">
+					Password should be within 6 to 16 characters long. Use strong password.
+				</div>
+			</div>
+		</div>
+			
+		<div class="col-12">
+			<button class="default-btn" id="login-submit" type="submit">
+				Login
+			</button>
+		</div>
+			
+		<div class="col-12">
+			<p class="create">Don't have an account? 
+				<a asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+			</p>  
+		</div>
+	</div>
+</form>
+
+@section Scripts
+{
+	<partial name="_ValidationScriptsPartial" />
+	<script src="~/pify/assets/js/disableFormSubmission.js"></script>
+}

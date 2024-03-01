@@ -1,0 +1,60 @@
+﻿@model CreateCommentModel
+@{
+    ViewData["Title"] = "CreateComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+}
+
+<h1>CreateComment</h1>
+
+<div class="offset-lg-1 col-lg-10">
+	<div class="middull-content">
+		<ul class="page-nish">
+			<li>
+				<a href="index.html">
+					<i class="ri-home-8-line"></i>
+					Home
+				</a>
+			</li>
+			<li>
+				Question
+			</li>
+			<li class="active">
+				Question Details
+			</li>
+		</ul>
+
+		<div class="question-details-area">
+			<form class="your-answer-form" method="post" asp-antiforgery="true"
+				  asp-area="MyProfile" asp-controller="Comment" asp-action="CreateComment">
+					<div asp-validation-summary="All" class="text-danger"></div>
+				<div class="form-group">
+					<h3>Your Answer</h3>
+				</div>
+				<div class="form-group">
+					<label asp-for="Description">Write your answer here.</label>
+						<textarea asp-for="Description" id="summernote" maxlength="1500"></textarea>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="default-btn">Post Your Answer</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#summernote').summernote();
+		});
+	</script>
+}
+

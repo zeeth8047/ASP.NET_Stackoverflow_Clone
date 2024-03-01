@@ -1,0 +1,48 @@
+﻿@model UpdatePostModel
+@{
+	ViewData["Title"] = "Update";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+	{
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+}
+
+	<h1>@ViewData["Title"] Question</h1>
+
+	<div class="offset-lg-1 col-lg-10">
+		<div class="middull-content">
+			<form class="your-answer-form" role="form" method="post"
+			  asp-area="MyProfile" asp-controller="Post" asp-action="Update" asp-antiforgery="true">
+				<input type="hidden" asp-for="Id" />
+				<div asp-validation-summary="All" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="Title">Title</label>
+					<input asp-for="Title" type="text" class="form-control" maxlength="150">
+				</div>
+				@*<div class="form-group">
+			<label asp-for="Tag">Tags (Add up to 5 tags to describe what your question is about)</label>
+			<input asp-for="Description" type="text" class="form-control">
+			</div>*@
+				<div class="form-group">
+					<label asp-for="Description">Description</label>
+					<textarea asp-for="Description" id="summernote" maxlength="2000"></textarea>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="default-btn">Update Post</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+@section Scripts
+{
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#summernote').summernote();
+		});
+	</script>
+}

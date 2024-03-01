@@ -1,0 +1,247 @@
+﻿<!doctype html>
+<html lang="en">
+    
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Links Of CSS File -->
+	<link rel="stylesheet" href="~/pify/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/flaticon.css">
+	<link rel="stylesheet" href="~/pify/assets/css/remixicon.css">
+	<link rel="stylesheet" href="~/pify/assets/css/meanmenu.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/animate.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/metismenu.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/font-awesome.min.css">
+	<link rel="stylesheet" href="~/pify/assets/css/editor.css">
+	<link rel="stylesheet" href="~/pify/assets/css/style.css">
+	<link rel="stylesheet" href="~/pify/assets/css/responsive.css">
+	@await RenderSectionAsync("Styles", required: false)
+		
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="~/pify/assets/images/favicon.png">
+	<!-- Title -->
+	<title>@ViewData["Title"] - Stack Overflow</title>
+</head>
+
+<body>
+	<!-- Start Preloader Area -->
+	<div class="preloader" id="loader-style">
+		<div class="preloader-wrap">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<!-- End Preloader Area -->
+		
+	<!-- Start Navbar Area --> 
+	<div class="navbar-area">
+		<div class="mobile-responsive-nav">
+			<div class="container">
+				<div class="mobile-responsive-menu">
+					<div class="logo">
+						<a asp-area="" asp-controller="Home" asp-action="Index">
+							<img src="~/pify/assets/images/logo.png" alt="logo">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="desktop-nav">
+			<div class="container">
+				<nav class="navbar navbar-expand-md navbar-light">
+					<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+						<img src="~/pify/assets/images/logo.png" alt="logo">
+					</a>
+
+					<div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+						<ul class="navbar-nav m-auto">
+							<li class="nav-item">
+								<a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link active">
+									Home 
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link">
+									About Us
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="#" class="nav-link dropdown-toggle">
+									Blog            
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a class="nav-link">Blog</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">Blog Details</a>
+									</li>
+								</ul>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link">Contact Us</a>
+							</li>
+
+							<li class="nav-item">
+								<a href="#" class="nav-link dropdown-toggle">
+									Pages 
+								</a>
+
+								<ul class="dropdown-menu">
+									<li class="nav-item">
+										<a class="nav-link">Activity</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">Referrals</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">Privacy Policy</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">Terms & Conditions</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">Coming Soon</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link">404 Page</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+
+						<div class="others-options">
+							<ul>
+								<li>
+									<form class="search-box">
+										<input type="text" name="Search" placeholder="Search for..." class="form-control">
+
+										<button type="submit" class="search-btn">
+											<i class="ri-search-line"></i>
+										</button>
+									</form>
+								</li>
+								<partial name="_LoginPartial" />
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div class="others-option-for-responsive">
+			<div class="container">
+				<div class="dot-menu">
+					<div class="inner">
+						<div class="circle circle-one"></div>
+						<div class="circle circle-two"></div>
+						<div class="circle circle-three"></div>
+					</div>
+				</div>
+					
+				<div class="container">
+					<div class="option-inner">
+						<div class="others-options justify-content-center d-flex align-items-center">
+							<ul>
+								<li>
+									<form class="search-box">
+										<input type="text" name="Search" placeholder="Search for..." class="form-control">
+									
+										<button type="submit" class="search-btn">
+											<i class="ri-search-line"></i>
+										</button>
+									</form>
+								</li>
+								<li>
+									<a data-bs-toggle="modal" data-bs-target="#exampleModal-3" class="active">
+										Log in	
+									</a>
+								</li>
+								<li>
+									<a data-bs-toggle="modal" data-bs-target="#exampleModal-4">
+										Sign up
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Navbar Area -->
+
+	<!-- Start Banner Area -->
+	@await RenderSectionAsync("BannerArea", required: false)
+	
+	<!-- End Banner Area -->
+
+	<!-- Start Mail Content Area -->
+	<div class="main-content-area ptb-100">
+		<div class="container">
+			<div class="row">
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+	<!-- End Mail Content Area -->
+
+	<!-- Start Footer + Copyright Area -->
+		<partial name="_FooterPartial" />
+	<!-- End Footer + Copyright Area -->
+
+	<!-- Start Go Top Area -->
+	<div class="go-top">
+		<i class="ri-arrow-up-s-fill"></i>
+		<i class="ri-arrow-up-s-fill"></i>
+	</div>
+	<!-- End Go Top Area -->
+
+    <!-- Links of JS File -->
+    <script data-cfasync="false" src="~/pify/assets/js/cloudflare-static/email-decode.min.js"></script>
+	<script src="~/pify/assets/js/jquery.min.js"></script>
+    <script src="~/pify/assets/js/bootstrap.bundle.min.js"></script>
+	<script src="~/pify/assets/js/meanmenu.min.js"></script>
+	<script src="~/pify/assets/js/owl.carousel.min.js"></script>
+	<script src="~/pify/assets/js/form-validator.min.js"></script>
+	<script src="~/pify/assets/js/contact-form-script.js"></script>
+	<script src="~/pify/assets/js/ajaxchimp.min.js"></script>
+	<script src="~/pify/assets/js/metismenu.js"></script>
+	<script src="~/pify/assets/js/editor.js"></script>
+	<script src="~/pify/assets/js/like-dislike.min.js"></script>
+	<script src="~/pify/assets/js/custom.js"></script>
+	
+	@*Right Click results nothing*@
+	@*<script>
+		document.addEventListener('contextmenu', function (e) {
+			e.preventDefault();
+		});
+		document.onkeydown = function (e) {
+			if (event.keyCode == 123) {
+				return false;
+			}
+			if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+				return false;
+			}
+			if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+				return false;
+			}
+			if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+				return false;
+			}
+		}
+	</script>*@
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

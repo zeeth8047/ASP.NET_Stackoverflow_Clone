@@ -1,0 +1,288 @@
+﻿@model PostDetailsModel
+@using Microsoft.AspNetCore.Identity
+@using StackOverflow.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    await Model.GetUserInfoAsync();
+}
+
+@{
+    ViewData["Title"] = "PostDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+}
+
+    <div class="offset-lg-1 col-lg-10">
+        <div class="middull-content">
+            <ul class="page-nish">
+                <li>
+                    <a asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="ri-home-8-line"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    Question
+                </li>
+                <li class="active">
+                    Question Details
+                </li>
+            </ul>
+
+            <form class="aq-form">
+                <i class="ri-search-line"></i>
+                <input type="text" class="form-control" placeholder="Have a question? Ask or enter a search">
+                <button class="aq-btn">
+                    Ask Question
+                </button>
+            </form>
+
+            <div class="question-details-area">
+                <div class="question-details-content like-dislike">
+                    <div class="d-flex">
+                        <div class="link-unlike flex-shrink-0">
+                            <a>
+                                <img src="~/pify/assets/images/user/user-1.jpg" alt="Image">
+                            </a>
+
+                            <div class="donet-like-list">
+                                <a class="like-unlink-count like" asp-area="" asp-controller="Home" 
+									asp-action="PostVoteUp" asp-route-id="@Model.Post.Id">
+                                    <i class="ri-thumb-up-fill"></i>
+                                    <span>@Model.Post.Comments.Count</span>
+                                </a>
+                            </div>
+
+                            <div class="donet-like-list">
+                                <a class="like-unlink-count dislike" asp-area="" asp-controller="Home" 
+									asp-action="PostVoteDown" asp-route-id="@Model.Post.Id">
+                                    <i class="ri-thumb-down-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 ms-3">
+                            <ul class="graphic-design">
+                                <li>
+                                    <a>@Model.Post.ApplicationUser.DisplayName</a>
+                                </li>
+                                <li>
+                                    <span>Created At: @Model.Post.CreatedAt.ToString("dddd, dd MMMM yyyy")</span>
+                                </li>
+                                <li>
+                                    <span>In:</span>
+                                    <a class="graphic">
+                                        Software Development
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <h3>
+                                <a asp-area="" asp-controller="Home" asp-action="PostDetails" asp-route-id="@Model.Post.Id">
+                                    @Model.Post.Title
+                                </a>
+                            </h3>
+
+                            @Html.Raw(Model.Post.Description)
+                            <ul class="tag-list">
+                            @if (Model.Post.Tags is not null)
+                            {
+                                foreach (var tag in Model.Post.Tags)
+                                {
+                                    <li>
+                                        <a>@tag.Name</a>
+                                    </li>
+                                }
+                            }
+                            </ul>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <ul class="anser-list">
+                                    <li>
+                                    @if (@Model.Post.Votes != null)
+                                    {
+                                        <a>@Model.Post.Votes.Count Vote</a>
+                                    }
+                                    else
+                                    {
+                                        <a>0 Vote</a>
+                                    }
+                                    </li>
+                                    <li>
+                                        @if (@Model.Post.Comments is null)
+                                        {
+                                            <a>0 Answer</a>
+                                        }
+                                        else
+                                        {
+                                            <a>@Model.Post.Comments.Count Answers</a>
+                                        }
+                                    </li>
+                                </ul>
+
+                                <a asp-area="" asp-controller="Home" asp-action="PostDetails" asp-route-id="@Model.Post.Id" class="default-btn">
+                                    Answer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="answerss d-flex justify-content-between align-items-center">
+                    <li>
+                    @if (@Model.Post.Comments is null)
+                    {
+                        <h3>0 Answer</h3>
+                    }
+                    else
+                    {
+                        <h3>@Model.Post.Comments.Count Answers</h3>
+                    }
+                </li>
+            </ul>
+
+            @foreach (var comment in Model.Post.Comments)
+            {
+                <div class="answer-question-details like-dislike">
+                    <div class="d-flex">
+                        <div class="link-unlike flex-shrink-0">
+                            <a>
+                                <img src="~/pify/assets/images/user/user-1.jpg" alt="Image">
+                            </a>
+
+                            <div class="donet-like-list">
+                                <a class="like-unlink-count like" asp-area="" asp-controller="Home"
+                                asp-action="CommentVoteUp" asp-route-id="@comment.Id">
+                                    <i class="ri-thumb-up-fill"></i>
+                                    <span>@comment.Votes.Count</span>
+                                </a>
+                            </div>
+
+                            <div class="donet-like-list">
+                                <a class="like-unlink-count dislike" asp-area="" asp-controller="Home"
+                                asp-action="CommentVoteDown" asp-route-id="@comment.Id">
+                                    <i class="ri-thumb-down-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 ms-3">
+                            <ul class="latest-answer-list">
+                                <li>
+                                    <a>@comment.ApplicationUser.DisplayName</a>
+                                </li>
+                                <li>
+                                    <span>Commented At: @comment.CreatedAt.ToString("dddd, dd MMMM yyyy")</span>
+                                </li>
+
+                                @if (SignInManager.IsSignedIn(User) && Model.UserInfo.Id == comment.UserId)
+                                {
+                                <li class="reports">
+                                    <a class="report" asp-area="" asp-controller="Home"
+									   asp-action="UpdateComment" asp-route-id="@comment.Id">
+                                            <i class="ri-file-edit-line"></i>
+                                        Edit
+                                    </a>
+                                </li>
+                                }
+                                @if (comment.IsAcceptedAsAnswer == true)
+                                {
+                                    <li>
+                                        <h4>
+                                            <span class="badge bg-success text-white bg-opacity-75 myTooltip"
+                                          data-bs-toggle="tooltip" data-bs-placement="top" title="Questioner selected this answer as Accepted">
+                                                Accepted
+                                            </span>
+                                        </h4>
+                                    </li>
+                                }
+                                @if (SignInManager.IsSignedIn(User) && Model.Post.UserId == Model.UserInfo.Id)
+                                {
+                                    @if (comment.IsAcceptedAsAnswer == false)
+                                    {
+                                        <li class="">
+                                            <a class="border btn btn-light btn-sm myTooltip"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Click to set this answer as Accepted"
+                                            asp-area="" asp-controller="Home" asp-action="CommentApprove" asp-route-id="@comment.Id">
+                                                Approve this Answer
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="">
+                                            <a class="border btn btn-light btn-sm myTooltip"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Click to set this answer as Not Accepted"
+                                            asp-area="" asp-controller="Home" asp-action="CommentDisapprove" asp-route-id="@comment.Id">
+                                                Disapprove
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                            
+                            @Html.Raw(comment.Description)
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form class="your-answer-form needs-validation" novalidate method="post" asp-antiforgery="true"
+                  asp-area="MyProfile" asp-controller="Comment" asp-action="CreateComment">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <h3>Your Answer</h3>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" for="summernote">Write your answer here.</label>
+                        <textarea asp-for="Description" id="summernote" maxlength="1500" required></textarea>
+                        <div class="invalid-feedback">
+                            Answer cant't be greater than 1500 characters.
+                        </div>
+                    </div>
+                    <input type="hidden" name="PostId" value="@Model.Post.Id" />
+                    <div class="form-group">
+                        <button type="submit" class="default-btn">Post Your Answer</button>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="form-group">
+                    <a asp-area="" asp-controller="Account" asp-action="Login" class="default-btn w-100">Login to Answer</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                height: 150
+            });
+        });
+    </script>
+
+    <script>
+        const tooltips = document.querySelectorAll('.myTooltip')
+        tooltips.forEach(t => {
+            new bootstrap.Tooltip(t)
+        });
+    </script>
+}

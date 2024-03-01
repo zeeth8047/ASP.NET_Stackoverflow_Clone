@@ -1,0 +1,78 @@
+﻿@model CreatePostModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<link href="~/utilities/tagify/tagify.css" rel="stylesheet">
+}
+
+<h1>@ViewData["Title"] Question</h1>
+
+<div class="offset-lg-1 col-lg-10">
+	<div class="middull-content">
+		<form class="your-answer-form needs-validation" novalidate role="form" method="post"
+			  asp-area="MyProfile" asp-controller="Post" asp-action="Create" asp-antiforgery="true">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Title" for="titleValidation">Title</label>
+				<input asp-for="Title" type="text" class="form-control" id="titleValidation" maxlength="150" required>
+				<div class="invalid-feedback">
+					Question Title can't be greater than 150 characters.
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="Tag" for="tags">Tags (Add up to 5 tags to describe what your question is about)</label>
+				<input asp-for="Tag" type="text" id="tags" placeholder="Write some tags" 
+				class="form-control" autocomplete="off" required>
+				<div class="invalid-feedback">
+					Enter question related tags.
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="Description" for="summernote">Description</label>
+				<textarea asp-for="Description" id="summernote" maxlength="2000" required></textarea>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="default-btn">Create Post</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	<script src="~/utilities/tagify/tagify.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#summernote').summernote({
+				height: 150
+			});
+		});
+	</script>
+
+	<script>
+		// Vanilla JavaScript
+		var input = document.getElementById("tags"),
+		tagify = new Tagify(input);
+		tagify.duplicates = false;
+		tagify.maxTags = 5;
+
+		//$(document).ready(function(){
+
+		//  // jQuery methods go here...
+		//	//[name=tags]
+		//	$('#tags').tagify({
+		//		duplicates: false,
+		//		maxTags: 5
+		//	});
+		//});
+
+
+	</script>
+}

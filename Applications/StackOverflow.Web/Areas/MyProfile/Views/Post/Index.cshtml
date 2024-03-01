@@ -1,0 +1,181 @@
+﻿@model ListPostModel
+@{
+    ViewData["Title"] = "Post";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h1 class="offset-lg-1 col-lg-10 text-center">Your Questions</h1>
+</div>
+
+<div class="offset-lg-1 col-lg-10">
+    <div class="d-block justify-content-end">
+        <a class="default-btn float-end" asp-area="MyProfile" asp-controller="Post" asp-action="Create">Ask Question</a>
+    </div>
+</div>
+<div class="offset-lg-1 col-lg-10">
+    <div class="middull-content">
+
+        <ul class="nav nav-tabs questions-tabs d-flex justify-content-between" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="recent-questions-tab" data-bs-toggle="tab" data-bs-target="#recent-questions"
+                        type="button" role="tab" aria-controls="recent-questions" aria-selected="true">
+                    All Questions
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="recent-questions" role="tabpanel" aria-labelledby="recent-questions-tab">
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="single-qa-box like-dislike">
+                        <div class="d-flex">
+                            <div class="link-unlike flex-shrink-0">
+                                <a>
+                                    <img src="~/pify/assets/images/user/user-1.jpg" alt="Image">
+                                </a>
+
+                                <div class="donet-like-list">
+                                    <a class="like-unlink-count like" asp-area="" asp-controller="Home" 
+									asp-action="PostVoteUp" asp-route-id="@post.Id">
+                                        <i class="ri-thumb-up-fill"></i>
+                                        <span>@post.Votes.Count</span>
+                                    </a>
+                                </div>
+
+                                <div class="donet-like-list">
+                                    <a class="like-unlink-count dislike" asp-area="" asp-controller="Home" 
+									asp-action="PostVoteDown" asp-route-id="@post.Id">
+                                        <i class="ri-thumb-down-fill"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow-1 ms-3">
+                                <ul class="graphic-design">
+                                    <li>
+                                        <a href="">@post.ApplicationUser.DisplayName</a>
+                                    </li>
+                                    <li>
+                                        <span>Asked on: @post.CreatedAt.ToString("dddd, dd MMMM yyyy")</span>
+                                    </li>
+                                </ul>
+
+                                <h3>
+                                    <a asp-area="" asp-controller="Home" asp-action="PostDetails" asp-route-id="@post.Id">
+                                        @post.Title
+                                    </a>
+                                </h3>
+
+                                @Html.Raw(post.Description)
+
+                                <ul class="tag-list">
+                                    @if (post.Tags is not null)
+                                    {
+                                        foreach (var tag in post.Tags)
+                                        {
+                                            <li>
+                                                <a>@tag.Name</a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <ul class="anser-list">
+                                        <li>
+                                            <a href="">
+                                                @if (@post.Votes != null)
+                                                {
+                                                    <p>@post.Votes.Count Vote</p>
+                                                }
+                                                else
+                                                {
+                                                    <p>0 Vote</p>
+                                                }
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                2 Answer
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="d-block float-end">
+                                        <a class="bg-orange" asp-area="MyProfile" asp-controller="Post" asp-action="Update"
+                                       asp-route-id="@post.Id">
+                                            Edit
+                                        </a>
+                                        <a class="default-btn" onclick="deletePost('@post.Id')">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @*Delete Modal Starts*@
+                <form id="deleteForm" method="post" asp-antiforgery="true"
+                      asp-area="MyProfile" asp-controller="Post" asp-action="Delete" asp-route-id="">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure want to Delete?</h5>
+
+                                    <input type="hidden" id="deleteId" value="" name="id" />
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="m-3">You won't be able to revert this!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger" id="deleteButton">Yes! Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                @*Delete Modal Ends*@
+
+
+                <div class="pagination-area text-center">
+                    <a href="" class="next page-numbers">
+                        <i class="ri-arrow-left-line"></i>
+                    </a>
+                    <span class="page-numbers current" aria-current="page">1</span>
+                    <a href="" class="page-numbers">2</a>
+                    <a href="" class="page-numbers">3</a>
+
+                    <a href="" class="next page-numbers">
+                        <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        function deletePost(id) {
+            var modal = $("#exampleModal");
+            modal.find('.modal-body p').text('You wont be able to revert this!');
+            $("#deleteId").val(id);
+            $("#deleteForm").attr("action", "/MyProfile/Post/Delete");
+            modal.modal('show');
+        }
+        $("#deleteButton").click(function () {
+            $("#deleteForm").submit();
+        });
+    </script>
+    }

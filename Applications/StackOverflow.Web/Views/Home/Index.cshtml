@@ -1,0 +1,166 @@
+﻿@model AllPostModel
+@using Microsoft.AspNetCore.Identity
+@using StackOverflow.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+	await Model.GetUserInfoAsync();
+}
+
+@{
+	ViewData["Title"] = "Home";
+}
+
+@section BannerArea
+{
+	<partial name="_BannerPartial" />
+}
+
+<div class="offset-lg-1 col-lg-10">
+	<div class="middull-content">
+			<form class="aq-form" method="get" asp-area="" asp-controller="Home" asp-action="Index" asp-antiforgery="true">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<i class="ri-search-line"></i>
+			<input type="text" asp-for="SearchTerm" 
+			class="form-control" placeholder="Have a question? Ask or enter a search">
+			<button class="aq-btn" type="submit">
+				Search
+			</button>
+		</form>
+
+		<ul class="nav nav-tabs questions-tabs d-flex justify-content-between" id="myTab" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="recent-questions-tab" 
+				data-bs-toggle="tab" data-bs-target="#recent-questions" type="button" role="tab" aria-controls="recent-questions" aria-selected="true">
+					Recent Questions
+				</button>
+			</li>
+		</ul>
+
+		<div class="tab-content" id="myTabContent">
+			<div class="tab-pane fade show active" id="recent-questions" role="tabpanel" aria-labelledby="recent-questions-tab">
+				@foreach (var post in Model.Posts)
+				{
+					<div class="single-qa-box like-dislike">
+						<div class="d-flex">
+							<div class="link-unlike flex-shrink-0">
+								<a>
+									<img src="~/pify/assets/images/user/user-1.jpg" alt="Image">
+								</a>
+
+								<div class="donet-like-list">
+									<a class="like-unlink-count like" asp-area="" asp-controller="Home" 
+									asp-action="PostVoteUp" asp-route-id="@post.Id">
+										<i class="ri-thumb-up-fill"></i>
+										<span>@post.Votes.Count</span>
+									</a>
+								</div>
+
+								<div class="donet-like-list">
+									<a class="like-unlink-count dislike" asp-area="" asp-controller="Home"
+										asp-action="PostVoteDown" asp-route-id="@post.Id">
+										<i class="ri-thumb-down-fill"></i>
+									</a>
+								</div>
+							</div>
+
+							<div class="flex-grow-1 ms-3">
+								<ul class="graphic-design">
+									<li>
+										<a>@post.ApplicationUser.DisplayName</a>
+									</li>
+									<li>
+										<span>Created At: @post.CreatedAt.ToString("dddd, dd MMMM yyyy")</span>
+									</li>
+									<li>
+										<span>In:</span>
+										<a class="graphic">
+											Graphic design
+										</a>
+									</li>
+									@if (SignInManager.IsSignedIn(User) && Model.UserInfo.Id == post.UserId)
+									{
+										<li class="reports float-right" style="visibility:visible">
+											<a class="report" style="font-size:14px !important;font-weight:400;" 
+											asp-area="MyProfile" asp-controller="Post" asp-action="Update" asp-route-id="@post.Id" 
+											asp-return-url="/MyProfile/Post/Update/{@post.Id}">
+												<i class="ri-file-edit-line"></i> Edit
+											</a>
+										</li>
+									}									
+								</ul>
+
+								<h3>
+									<a asp-area="" asp-controller="Home" asp-action="PostDetails" asp-route-id="@post.Id">
+										@post.Title
+									</a>
+								</h3>
+
+								@Html.Raw(post.Description)
+
+								<ul class="tag-list">
+									@if(post.Tags is not null)
+									{
+										@foreach (var tag in post.Tags)
+										{
+											<li>
+												<a>@tag.Name</a>
+											</li>
+										}
+									}
+								</ul>
+
+								<div class="d-flex justify-content-between align-items-center">
+									<ul class="anser-list">
+										<li>
+											<a href="">
+												@if (@post.Votes != null)
+												{
+													<p>@post.Votes.Count Vote</p>
+												}
+												else
+												{
+													<p>0 Vote</p>
+												}
+											</a>
+										</li>
+										<li>
+											@if (@post.Comments is null)
+											{
+												<a>0 Answer</a>
+											}
+											else
+											{
+												<a>@post.Comments.Count Answers</a>
+											}
+										</li>
+									</ul>
+
+									<a asp-area="" asp-controller="Home" asp-action="PostDetails" asp-route-id="@post.Id" class="default-btn">
+										Answer
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				
+				<div class="pagination-area text-center">
+					<a class="next page-numbers">
+						<i class="ri-arrow-left-line"></i>
+					</a>
+					<span class="page-numbers current" aria-current="page">1</span>
+					<a class="page-numbers">2</a>
+					<a class="page-numbers">3</a>
+										
+					<a class="next page-numbers">
+						<i class="ri-arrow-right-line"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

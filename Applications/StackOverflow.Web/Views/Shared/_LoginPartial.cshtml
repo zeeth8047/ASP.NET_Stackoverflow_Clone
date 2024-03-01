@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using StackOverflow.Infrastructure.Entities.Membership
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li>
+        <a class="d-flex text-white active" asp-area="MyProfile" asp-controller="Post" asp-action="Index" title="My Profile">
+            Hello @User.Identity.Name
+        </a>
+    </li>
+    <li >
+        <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" method="post" 
+        asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="custom-button active"> Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li>
+        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+    <li>
+        <a class="active" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+    </li>
+}
